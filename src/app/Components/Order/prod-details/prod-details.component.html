@@ -1,0 +1,22 @@
+<!-- {{prod | json}} -->
+
+<div class="card m-2" style="width: 30%;">
+    <img class="card-img-top" [src]="prod?.imgURL" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{prod?.name}}</h5>
+      <div class="card-text">
+        <div>Price: {{prod?.price}}</div>
+        <div>Quantity: {{prod?.quantity}}</div>
+
+      </div>
+      <hr>
+      <div class="btn-group" role="group" aria-label="Basic example">
+        <button [disabled]="RecievedProdID==prodIDsList[0]" type="button" class="btn btn-success" (click)="prevProd()">Previous</button>
+        <button type="button" class="btn btn-warning" (click)="goBack()">Back</button>
+        <button [disabled]="RecievedProdID==prodIDsList[prodIDsList.length - 1]" type="button" class="btn btn-success" (click)="nextProd()">Next</button>
+      </div>
+      <br>
+      <!-- <button type="button" class="btn btn-secondary" (click)="goBack()">Back</button> -->
+    </div>
+  </div>
+

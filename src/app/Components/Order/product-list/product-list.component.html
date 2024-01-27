@@ -1,0 +1,100 @@
+<!-- <div class="mb-3">
+    <label for="prodCat" class="form-label">Category</label>
+    <select  class="form-control" name="cat" id="prodCat" [(ngModel)]="selectedCatID" (onchange)="filterProductsByCatID()"> 
+        <option *ngFor="let cat of catList" [value] = "cat.id">{{cat.name}}</option>
+    </select>
+</div> --> 
+
+<!-- <div class="bad curly special" [class]="badCurly">Bad Curly</div> -->
+<!-- <div class="text-secondory">
+    [To be Removed] For test: 
+    {{selectedCatID}} <br>
+    <button type="button" class="btn btn-primary" (click)="changeCat()">(Test) Change Category</button>
+    <br>
+    Today's Date: {{OrderDate | date: 'longDate'}}
+</div> -->
+<hr>
+<table class="table">
+    <thead class="bg-dark text-dark">
+        <tr>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Av. Quantity</th>
+            <th>Price in USD</th>
+            <th>Price in EGP</th>
+            <th>Count</th>
+            <th>Details</th>
+            <th>Buy</th>
+            <!-- <th>ٌRemove</th> -->
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Safe Navigation Operator -->
+        <!-- <tr *ngFor="let prod of prodList;index as i"  -->
+        <!-- <tr *ngFor="let prod of prodList; let i = index; trackBy:prodTrackByFun" 
+        [class.d-none]="selectedCatID != prod.categoryID"
+        [style.background-color]="(prod.quantity == 0)? 'yellow' : 'lightgray'"> -->
+        <!-- <tr *ngFor="let prod of prodList; let i = index" [hidden]="prod.quantity == 0"> -->
+        <!-- ngIf (Structural directives in general) change DOM, while class binding or [hidden] just 
+            change the dom element to be hidden -->
+        <!-- Use ngIf, If Collection isn't changed reguraly in the runtime, and use binding, of 
+            the collection is reguraly changed  -->
+        <!-- -- We Can not use 2 Structural directives on the same HTML element, but 
+            we can use <ng-container> that will not reflect on the actual dom -->
+        <!-- <ng-container *ngFor="let prod of prodList; let i = index">
+            <tr *ngIf="prod.quantity != 0">   -->
+        
+        <!-- <tr *ngFor="let prod of prodList; let i = index" [class.bg-warning]="prod.quantity == 0">  -->
+        <!-- ngClass Waiting List of classes -->
+        <!-- <tr *ngFor="let prod of prodList; let i = index" 
+                    [ngClass]="{'bg-warning':prod.quantity == 0, 'text-primary':prod.quantity == 0}">  -->
+        <tr *ngFor="let prod of prodListOfCat; let i = index" 
+        [ngStyle]="{'background-color':prod.quantity == 0? 'yellow' : 'lightgray', 'color':prod.quantity == 0? 'darkred' : 'darkblue'}">
+                <!-- <td [class.bg-warning]="prod.quantity==0">{{i+1}}</td> -->
+                <td>{{i+1}}</td>
+                <td>{{prod?.name}}</td>
+                <!-- Property Binding => [src] -->
+                <!-- <td><img Lightbox highLightColor="red" [src]="prod.imgURL" alt=""></td> -->
+                <td>
+                    <!-- <img Lightbox = "red" [src]="prod.imgURL" alt=""> -->
+                    <!-- <img [Lightbox] = "ReadFromPropInTS" [src]="prod.imgURL" alt=""> -->
+                    <img Lightbox = "red" defaultColor = "yellow" [src]="prod.imgURL" alt="">
+                </td>
+                <!-- <td [class.bg-warning]="prod.quantity==0">{{prod.quantity}}</td> -->
+                <td>
+                    <!-- <div *ngIf="prod.quantity != 0">
+                        {{prod.quantity}}
+                    </div>
+                    <div *ngIf="prod.quantity == 0">Out of the stock</div> -->
+                    <!-- <div *ngIf="prod.quantity != 0; else outOfTheStock">
+                        {{prod.quantity}}
+                    </div>
+                    <ng-template #outOfTheStock>Out of the stock</ng-template> -->
+                    <ng-container [ngSwitch]="prod.quantity">
+                        <div *ngSwitchCase="0">Out of the stock</div>
+                        <div *ngSwitchCase="1">Last Item!</div>
+                        <div *ngSwitchCase="2">Last 2 Items</div>
+                        <div *ngSwitchDefault>{{prod.quantity}}</div>
+                    </ng-container>
+                </td>
+                <td>{{prod.price | currency: 'USD' : 'symbol'}}</td>
+                <td>{{prod.price | USDtoEGP: 44 | currency: 'EGP' : 'code'}}</td>
+                <!-- Template variable => Value that selected in dropdown list -->
+                <td><input #itemsCount type="number" class="form-control"></td>
+                <!-- <td><button type="button" class="btn btn-secondary" 
+                    (click)="openProdDetails(prod.id)">Details</button></td> -->
+                <td><button type="button" class="btn btn-success" [routerLink]="['/Products', prod.id]">Details</button></td>
+                <td><button type="button" class="btn btn-secondary" 
+                    (click)="buy(prod.price, itemsCount.value)">Add to Cart</button></td>
+                <!-- <td><button type="button" class="btn btn-danger" 
+                    (click)="remove()">Remove</button></td> -->
+        </tr>
+    </tbody>
+</table>
+
+<hr> 
+<!-- <h3 class="text-danger">
+    [To be Removed] For Test: <br>
+    Order Total Price: {{orderTotalPrice}}
+</h3> -->
